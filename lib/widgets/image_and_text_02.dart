@@ -7,15 +7,17 @@ class ImageAndText extends StatelessWidget {
     @required Sentence sentence,
     Image image,
     bool rotate,
+    Function fn,
   })  : _sentence = sentence,
         _image = image,
         _rotate = rotate,
+        _fn = fn,
         super(key: key);
 
   final Sentence _sentence;
   final Image _image;
   final bool _rotate;
-
+  final Function _fn;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -45,25 +47,32 @@ class ImageAndText extends StatelessWidget {
               children: List<Widget>.generate(_sentence.word.length, (index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        _sentence.word[index].isKeyword
-                            ? 'assets/images/symbols/' +
-                                _sentence.word[index].imagePath
-                            : 'assets/images/blank.jpg',
-                        fit: BoxFit.contain,
-                        height: 60,
-                      ),
-                      Text(
-                        _sentence.word[index].displayName,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    ],
+                  child: GestureDetector(
+                    onTap: (){
+                      print(_sentence.word[index].displayName);
+                    },
+                    child: Column(
 
+                      children: [
+                        Image.asset(
+                          _sentence.word[index].isKeyword
+                              ? 'assets/images/symbols/' +
+                                  _sentence.word[index].imagePath
+                              : 'assets/images/blank.jpg',
+                          fit: BoxFit.contain,
+                          height: 60,
+                            
+                        ),
+                        Text(
+                          _sentence.word[index].displayName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],
+
+                    ),
                   ),
 
                 );
