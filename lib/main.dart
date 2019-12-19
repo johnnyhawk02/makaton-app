@@ -102,6 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void imageClickTest(String message){
+    print (message);
+  }
+
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -184,7 +188,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       image: _image != null
                           ? Image.file(_image)
                           : Image.asset('assets/images/symbols/c/cat.jpg'),
-                      rotate: _rotate),
+                      rotate: _rotate,
+                  fn: getImage,),
                 ],
               ),
             ),

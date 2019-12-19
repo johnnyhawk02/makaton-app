@@ -18,4 +18,5 @@ String simplify(sentence){
 Map  <String,String> thesaurus = {
   'fantastic': 'good',
   'great': 'good',
+  'amazing': 'good',
 };

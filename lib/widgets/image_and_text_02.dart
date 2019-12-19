@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../sentence.dart';
 
 class ImageAndText extends StatelessWidget {
@@ -24,17 +24,12 @@ class ImageAndText extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Transform.rotate(
-              angle: _rotate ? 3.14159 / 180 * 90 : 0,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                child: Container(
-                  child: _image,
-                  //width: _rotate ? 80 : 45,
-                ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              child: Container(
+                child: _image,
               ),
             ),
           ),
@@ -45,14 +40,13 @@ class ImageAndText extends StatelessWidget {
               spacing: 5.0, // gap between adjacent chips
               runSpacing: 10.0, // gap between lines
               children: List<Widget>.generate(_sentence.word.length, (index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: (){
-                      print(_sentence.word[index].displayName);
-                    },
+                return InkWell(
+                  onTap: () =>
+                    _fn()
+                  ,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
-
                       children: [
                         Image.asset(
                           _sentence.word[index].isKeyword
@@ -61,7 +55,7 @@ class ImageAndText extends StatelessWidget {
                               : 'assets/images/blank.jpg',
                           fit: BoxFit.contain,
                           height: 60,
-                            
+                          //colorBlendMode: BlendMode.srcOver ,
                         ),
                         Text(
                           _sentence.word[index].displayName,
@@ -71,18 +65,14 @@ class ImageAndText extends StatelessWidget {
                           ),
                         ),
                       ],
-
                     ),
                   ),
-
                 );
               }),
             ),
           ),
         ],
-
       ),
-
     );
   }
 }
