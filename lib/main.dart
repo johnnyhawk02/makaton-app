@@ -21,8 +21,8 @@ import 'package:keyboard_visibility/keyboard_visibility.dart';
 //});
 
 void main() {
-  permissions();
   WidgetsFlutterBinding.ensureInitialized();
+  permissions();
   runApp(new MyApp());
 }
 
