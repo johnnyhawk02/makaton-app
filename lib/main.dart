@@ -11,6 +11,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 //void main(){
 //  WordList.randomList(100).forEach(
@@ -21,6 +22,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   permissions();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(new MyApp());
 }
 
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: new ThemeData(
         primarySwatch: Colors.blue,
+
       ),
       home: new MyHomePage(),
     );
@@ -139,6 +142,14 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
 
     super.initState();
+    KeyboardVisibilityNotification().addNewListener(
+      onChange: (bool visible) {
+        setState(() {
+          print ('keyboard visible $visible');
+          typing = visible;
+        });
+      },
+    );
   }
 
   @override
@@ -155,8 +166,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
+
+              padding: const EdgeInsets.all(12.0),
               child: TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+
                 controller: _textEditingController,
                 //keyboardType: TextInputType.multiline,
                 onChanged: (text) {
@@ -165,6 +180,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   });
                 },
                 decoration: InputDecoration(
+
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+
+
                     suffixIcon: IconButton(
                         icon: Icon(Icons.clear),
                         onPressed: () {
@@ -188,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       image: _image != null
                           ? Image.file(_image)
                           : Image.asset('assets/images/symbols/c/cat.jpg'),
-                      rotate: _rotate,
+                    typing: typing,
                   fn: getImage,),
                 ],
               ),
