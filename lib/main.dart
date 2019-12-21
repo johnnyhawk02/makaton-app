@@ -59,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool typing = false;
   Sentence sentence = Sentence('We -are going(go) -to -the Zoo');
   File _imageFile;
+  String _title = 'Makaton';
   final ScreenshotController screenshotController = ScreenshotController();
   final TextEditingController _textEditingController = new TextEditingController();
 
@@ -154,67 +155,98 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: new AppBar(
-        title: Text('hi'),
-        actions: <Widget>[
-          buildAppBarButtons(),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 2,
+        child: new Scaffold(
+          resizeToAvoidBottomPadding: false,
+          appBar: new AppBar(
+            title: Text(_title),
+            actions: <Widget>[
+              buildAppBarButtons(),
+            ],
+          ),
+          body: TabBarView(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
 
-              padding: const EdgeInsets.all(12.0),
-              child: TextField(
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
+                      padding: const EdgeInsets.all(12.0),
+                      child: TextField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
 
-                controller: _textEditingController,
-                //keyboardType: TextInputType.multiline,
-                onChanged: (text) {
-                  setState(() {
-                    sentence = Sentence(text);
-                  });
-                },
-                decoration: InputDecoration(
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-
-
-                    suffixIcon: IconButton(
-                        icon: Icon(Icons.clear),
-                        onPressed: () {
+                        controller: _textEditingController,
+                        //keyboardType: TextInputType.multiline,
+                        onChanged: (text) {
                           setState(() {
-                            sentence = Sentence('');
-                            _textEditingController.clear();
+                            sentence = Sentence(text);
                           });
-                        }),
+                        },
+                        decoration: InputDecoration(
 
-                    hintText: 'Enter your sentence'),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
 
+
+                            suffixIcon: IconButton(
+                                icon: Icon(Icons.clear),
+                                onPressed: () {
+                                  setState(() {
+                                    sentence = Sentence('');
+                                    _textEditingController.clear();
+                                  });
+                                }),
+
+                            hintText: 'Enter your sentence'),
+
+                      ),
+                    ),
+                    Screenshot(
+                      controller: screenshotController,
+                      child: Column(
+                        children: <Widget>[
+                          ImageAndText(
+                              //sentence: sentence, image:  Image.file(_image), rotate: _rotate),
+                              sentence: sentence,
+                              image: _image != null
+                                  ? Image.file(_image)
+                                  : Image.asset('assets/images/symbols/c/cat.jpg'),
+                            typing: typing,
+                          fn: getImage,),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Screenshot(
-              controller: screenshotController,
-              child: Column(
-                children: <Widget>[
-                  ImageAndText(
-                      //sentence: sentence, image:  Image.file(_image), rotate: _rotate),
-                      sentence: sentence,
-                      image: _image != null
-                          ? Image.file(_image)
-                          : Image.asset('assets/images/symbols/c/cat.jpg'),
-                    typing: typing,
-                  fn: getImage,),
-                ],
+              Container(
+                color: Colors.orange,
               ),
-            ),
-          ],
+
+            ],
+
+          ),
+          bottomNavigationBar: new TabBar(
+            tabs: [
+              Tab(
+                icon: new Icon(Icons.home),
+              ),
+              Tab(
+                icon: new Icon(Icons.rss_feed),
+              ),
+
+            ],
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.black12,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicatorPadding: EdgeInsets.all(5.0),
+            indicatorColor: Colors.black,
+          ),
+
         ),
       ),
     );
