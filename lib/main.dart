@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:webmakaton/widgets/image_grid.dart';
 import "word_list.dart" show WordList;
 import 'imagePaths.dart' show imagePaths;
 import 'package:webmakaton/widgets/image_and_text_02.dart' show ImageAndText;
@@ -230,8 +231,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
-              Container(
-                color: Colors.orange,
+              ImageGrid(
+                sentence: sentence,
               ),
 
             ],
