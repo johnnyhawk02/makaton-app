@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:webmakaton/widgets/image_grid.dart';
+import 'package:webmakaton/widgets/sign_and_symbol.dart';
 import "word_list.dart" show WordList;
 import 'imagePaths.dart' show imagePaths;
 import 'package:webmakaton/widgets/image_and_text_02.dart' show ImageAndText;
@@ -165,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 2,
+        length: 3,
         child: new Scaffold(
           resizeToAvoidBottomPadding: false,
           appBar: new AppBar(
@@ -234,6 +235,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ImageGrid(
                 sentence: sentence,
               ),
+              SignAndSymbol(
+                sentence: sentence,
+              ),
 
             ],
 
@@ -245,6 +249,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Tab(
                 icon: new Icon(Icons.rss_feed),
+              ),
+              Tab(
+                icon: new Icon(Icons.sentiment_very_satisfied),
               ),
 
             ],
