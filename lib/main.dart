@@ -110,6 +110,13 @@ class _MyHomePageState extends State<MyHomePage> {
     print (message);
   }
 
+  void setSentence(s){
+
+      setState(() {
+        sentence = Sentence(s);
+      });
+  }
+
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 

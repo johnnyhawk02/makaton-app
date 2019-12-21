@@ -30,7 +30,7 @@ class ImageAndText extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 100),
+                duration: Duration(milliseconds: 300),
                 curve: Curves.fastOutSlowIn,
                 width: _typing?1:400,
                 child: _image,//_typing? Container():_image,
