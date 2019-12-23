@@ -18,12 +18,11 @@ class ImageGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new GridView.count(
-      childAspectRatio: 0.5,
-      crossAxisCount: 1,
+      childAspectRatio: 1.4,
+      crossAxisCount: 3,
       children: List<Widget>.generate(_sentence.word.length, (index) {
         return Column(
           mainAxisSize: MainAxisSize.max,
-
           children: [
             Card(
               child: Row(
@@ -32,34 +31,33 @@ class ImageGrid extends StatelessWidget {
                   Column(
                     children: <Widget>[
                       Image.asset(
-
-                             'assets/images/symbols/' +
+                        'assets/images/symbols/' +
                             _sentence.word[index].imagePath,
 
                         fit: BoxFit.contain,
-                        height: MediaQuery.of(context).size.width * 0.2,
+                        height: MediaQuery.of(context).size.width * 0.1,
                         //colorBlendMode: BlendMode.srcOver ,
                       ),
-
-                      Image.asset(
-                         'assets/images/signs/' +
-                            _sentence.word[index].imagePath,
-
-                        fit: BoxFit.contain,
-                        height: MediaQuery.of(context).size.width * 0.7,
-                        //colorBlendMode: BlendMode.srcOver ,
+//                      Image.asset(
+//                        'assets/images/signs/' +
+//                            _sentence.word[index].imagePath,
+//
+//                        fit: BoxFit.contain,
+//                        height: MediaQuery.of(context).size.width * 0.2,
+//                        //colorBlendMode: BlendMode.srcOver ,
+//                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          _sentence.word[index].displayName,
+                          style: GoogleFonts.didactGothic(
+                            fontWeight: FontWeight.normal,
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                          ),
+                        ),
                       ),
-                      Text(
-                        _sentence.word[index].displayName,
-        style: GoogleFonts.didactGothic(
-
-        fontWeight: FontWeight.normal,
-        fontSize: MediaQuery.of(context).size.width * 0.2,
-                      ),
-
-                      ),],
+                    ],
                   ),
-
                 ],
               ),
             ),

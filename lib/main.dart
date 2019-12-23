@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   File _image;
   bool _rotate = false;
   bool typing = false;
-  Sentence sentence = Sentence('We -are going(go) -to -the Zoo');
+  Sentence sentence = Sentence('cow horse donkey camel ostrich llama goat sheep octopus reindeer');
   File _imageFile;
   String _title = 'Makaton';
   final ScreenshotController screenshotController = ScreenshotController();
