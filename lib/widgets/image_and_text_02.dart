@@ -9,7 +9,7 @@ class ImageAndText extends StatelessWidget {
     Image image,
     bool typing,
     Function fn,
-   })  : _sentence = sentence,
+  })  : _sentence = sentence,
         _image = image,
         _typing = typing,
         _fn = fn,
@@ -26,14 +26,14 @@ class ImageAndText extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(8.0,8.0,8.0,12.0),
+            padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 12.0),
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 300),
                 curve: Curves.fastOutSlowIn,
-                width: _typing?1:400,
-                child: _image,//_typing? Container():_image,
+                width: _typing ? 1 : 400,
+                child: _image, //_typing? Container():_image,
               ),
             ),
           ),
@@ -45,9 +45,10 @@ class ImageAndText extends StatelessWidget {
               runSpacing: 25.0, // gap between lines
               children: List<Widget>.generate(_sentence.word.length, (index) {
                 return InkWell(
-                  onTap: () =>
-                    _fn()
-                  ,
+                  onTap: () {
+                    _sentence.replace(index, 'camel');
+                    _fn(_sentence.toString());
+                  },
                   child: Column(
                     children: [
                       Image.asset(
@@ -62,7 +63,6 @@ class ImageAndText extends StatelessWidget {
                       Text(
                         _sentence.word[index].displayName,
                         style: GoogleFonts.didactGothic(
-
                           fontWeight: FontWeight.normal,
                           fontSize: MediaQuery.of(context).size.width * 0.05,
                         ),

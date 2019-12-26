@@ -14,21 +14,14 @@ import 'dart:io';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
-
-//void main(){
-//  WordList.randomList(100).forEach(
-//          (word){
-//    print (word);3
-//  },
-//});
+import 'package:webmakaton/widgets/image_grid.dart';
+import 'package:webmakaton/widgets/sentence_text_box.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  //WidgetsFlutterBinding.ensureInitialized();
   permissions();
-  runApp(new MyApp());
+  runApp(MyApp());
 }
-
-
 
 void permissions() async {
   Map<PermissionGroup, PermissionStatus> permissions =
@@ -38,13 +31,12 @@ void permissions() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-
+      theme: ThemeData(
+        primarySwatch: Colors.deepOrange,
       ),
-      home: new MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -55,96 +47,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> _imageList = WordList.randomList(100);
-  File _image;
-  bool _rotate = false;
-  bool typing = false;
-  Sentence sentence = Sentence('cow horse donkey camel ostrich llama goat sheep octopus reindeer');
+   bool typing = false;
+  String _text =
+      'cow ostrich llama goat sheep octopus reindeer';
+  Sentence sentence = Sentence('cow');
   File _imageFile;
-  String _title = 'Makaton';
+  String _appBarTitle = 'Makaton';
   final ScreenshotController screenshotController = ScreenshotController();
-  final TextEditingController _textEditingController = new TextEditingController();
+  final TextEditingController textEditingController = TextEditingController();
 
-  void _showDialog() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
+  void setTextFieldText(text) {
+    print(textEditingController.text );
+    setState(() {
+      _text = text;
+      sentence = Sentence(text);
+      //textEditingController.text = text;
+    });
+  }
 
-          title: new Text("Exporting Image..."),
-          content:  Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Center(child: CircularProgressIndicator()),
-            ],
-          ),
+  void clearTextField() {
 
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-//            new FlatButton(
-//              child: new Text("Close"),
-//              onPressed: () {
-//                Navigator.of(context).pop();
-//              },
-//            ),
-          ],
-        );
+    setState(
+      () {
+        print(textEditingController.text);
+        sentence = Sentence('');
+        _text = 'cleared';
+
+        textEditingController.text='';
       },
     );
-  }
-
-  void random() {
-    setState(() {
-      _imageList = WordList.randomList(100);
-      print(_imageList[0]);
-    });
-  }
-
-  void rotate() {
-    setState(() {
-      _rotate = !_rotate;
-    });
-  }
-
-  void imageClickTest(String message){
-    print (message);
-  }
-
-  void setSentence(s){
-
-      setState(() {
-        sentence = Sentence(s);
-      });
-  }
-
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = image;
-    });
-  }
-
-  void screenShot() {
-    _showDialog();
-    permissions();
-    _imageFile = null;
-    double _ratio =
-        2480 / MediaQuery.of(context).size.width; //scale to A4 paper width
-    screenshotController.capture(pixelRatio: _ratio).then((File image) async {
-      //print("Capture Done");
-      setState(() {
-        _imageFile = image;
-      });
-      final result = await ImageGallerySaver.saveImage(image
-          .readAsBytesSync()); // Save image to gallery,  Needs plugin  https://pub.dev/packages/image_gallery_saver
-
-      Navigator.of(context).maybePop();
-    }).catchError((onError) {
-      print(onError);
-    });
   }
 
   @override
@@ -155,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
     KeyboardVisibilityNotification().addNewListener(
       onChange: (bool visible) {
         setState(() {
-          print ('keyboard visible $visible');
+          print('keyboard visible $visible');
           typing = visible;
         });
       },
@@ -167,130 +98,63 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       home: DefaultTabController(
         length: 3,
-        child: new Scaffold(
+        child: Scaffold(
           resizeToAvoidBottomPadding: false,
-          appBar: new AppBar(
-            title: Text(_title),
-            actions: <Widget>[
-              buildAppBarButtons(),
-            ],
+          appBar: AppBar(
+            title: Text(_appBarTitle),
+            actions: <Widget>[],
           ),
           body: TabBarView(
             children: <Widget>[
               SingleChildScrollView(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Padding(
-
-                      padding: const EdgeInsets.all(12.0),
-                      child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-
-                        controller: _textEditingController,
-                        //keyboardType: TextInputType.multiline,
-                        onChanged: (text) {
-                          setState(() {
-                            sentence = Sentence(text);
-                          });
-                        },
-                        decoration: InputDecoration(
-
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-
-
-                            suffixIcon: IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {
-                                  setState(() {
-                                    sentence = Sentence('');
-                                    _textEditingController.clear();
-                                  });
-                                }),
-
-                            hintText: 'Enter your sentence'),
-
-                      ),
+                    SentenceTextBox(
+                      textEditingController: textEditingController,
+                      clearTextField: clearTextField,
+                      setTextFieldText: setTextFieldText,
+                      sentence: sentence,
+                      text: _text,
                     ),
-                    Screenshot(
-                      controller: screenshotController,
-                      child: Column(
-                        children: <Widget>[
-                          ImageAndText(
-                              //sentence: sentence, image:  Image.file(_image), rotate: _rotate),
-                              sentence: sentence,
-                              image: _image != null
-                                  ? Image.file(_image)
-                                  : Image.asset('assets/images/symbols/c/cat.jpg'),
-                            typing: typing,
-                          fn: getImage,),
-                        ],
+
+                    Container(
+                      height: 500,
+                      child: ImageGrid(
+                        setTextFieldText: setTextFieldText,
+                        sentence: sentence,
                       ),
                     ),
                   ],
                 ),
               ),
               ImageGrid(
+                setTextFieldText: setTextFieldText,
                 sentence: sentence,
               ),
-              SignAndSymbol(
-                sentence: sentence,
-              ),
-
+              Text(_text + 'hi'),
             ],
-
           ),
-          bottomNavigationBar: new TabBar(
+          bottomNavigationBar: TabBar(
             tabs: [
               Tab(
-                icon: new Icon(Icons.home),
+                icon: Icon(Icons.home),
               ),
               Tab(
-                icon: new Icon(Icons.rss_feed),
+                icon: Icon(Icons.settings),
               ),
               Tab(
-                icon: new Icon(Icons.sentiment_very_satisfied),
+                icon: Icon(Icons.sentiment_very_satisfied),
               ),
-
             ],
             labelColor: Colors.black,
-            unselectedLabelColor: Colors.black12,
+            unselectedLabelColor: Colors.black54,
             indicatorSize: TabBarIndicatorSize.label,
             indicatorPadding: EdgeInsets.all(5.0),
             indicatorColor: Colors.black,
           ),
-
         ),
       ),
     );
-  }
-
-  Row buildAppBarButtons() {
-    return Row(
-          children: <Widget>[
-            FlatButton(
-              textColor: Colors.white,
-              onPressed: screenShot,
-              child: Icon(Icons.mobile_screen_share),
-            ),
-            FlatButton(
-              textColor: Colors.white,
-              onPressed: rotate,
-              child: Icon(Icons.rotate_left),
-            ),
-//              FlatButton(
-//                textColor: Colors.white,
-//                onPressed: random,
-//                child: Text("Randomize"),
-//              ),
-            FlatButton(
-              textColor: Colors.white,
-              onPressed: getImage,
-              child: Icon(Icons.image),
-            ),
-          ],
-        );
   }
 }

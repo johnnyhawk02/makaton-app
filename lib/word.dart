@@ -33,7 +33,7 @@ class Word {
       _imagePath = "blank.jpg";
     }
   }
-
+  void setName (String s) => _name = s;
   String get name => _name;
   String get displayName => _displayName;
   String get imagePath => _imagePath;

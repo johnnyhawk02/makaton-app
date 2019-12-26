@@ -68,4 +68,8 @@ class Sentence {
       },
     );
   }
+
+  replace(int index, String s) {
+    word[index].setName(s);
+  }
 }
