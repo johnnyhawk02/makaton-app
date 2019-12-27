@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:screenshot/screenshot.dart';
 import '../sentence.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -6,34 +7,51 @@ class ImageAndText extends StatelessWidget {
   const ImageAndText({
     Key key,
     @required Sentence sentence,
+    ScreenshotController screenshotController,
     Image image,
     bool typing,
     Function fn,
-  })  : _sentence = sentence,
+    Function getImage,
+  })  : _screenshotController = screenshotController,
+        _sentence = sentence,
         _image = image,
         _typing = typing,
         _fn = fn,
+        _getImage = getImage,
         super(key: key);
 
+  final Function _getImage;
   final Sentence _sentence;
   final Image _image;
   final bool _typing;
   final Function _fn;
+  final ScreenshotController _screenshotController;
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Screenshot(
+      controller: _screenshotController,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
+          FlatButton(
+            onPressed: _getImage,
+              child: Text('Click me')
+
+
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 12.0),
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                curve: Curves.fastOutSlowIn,
-                width: _typing ? 1 : 400,
-                child: _image, //_typing? Container():_image,
+              child: GestureDetector(
+                onTap: _getImage,
+                child: AnimatedContainer(
+
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.fastOutSlowIn,
+                  width: _typing ? 1 : 400,
+                  child: _image, //_typing? Container():_image,
+                ),
               ),
             ),
           ),

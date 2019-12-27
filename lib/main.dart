@@ -47,35 +47,42 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-   bool typing = false;
-  String _text =
-      'cow ostrich llama goat sheep octopus reindeer';
+  bool typing = false;
+  String _text = 'cow ostrich llama goat sheep octopus reindeer';
   Sentence sentence = Sentence('cow');
   File _imageFile;
   String _appBarTitle = 'Makaton';
   final ScreenshotController screenshotController = ScreenshotController();
   final TextEditingController textEditingController = TextEditingController();
+  File _image;
 
   void setTextFieldText(text) {
-    print(textEditingController.text );
+    print(textEditingController.text);
     setState(() {
-      _text = text;
+      //_text = text;
       sentence = Sentence(text);
       //textEditingController.text = text;
     });
   }
 
   void clearTextField() {
-
     setState(
       () {
         print(textEditingController.text);
         sentence = Sentence('');
         _text = 'cleared';
 
-        textEditingController.text='';
+        textEditingController.text = '';
       },
     );
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
   }
 
   @override
@@ -108,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               SingleChildScrollView(
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     SentenceTextBox(
                       textEditingController: textEditingController,
@@ -117,14 +124,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       sentence: sentence,
                       text: _text,
                     ),
-
                     Container(
-                      height: 500,
-                      child: ImageGrid(
-                        setTextFieldText: setTextFieldText,
-                        sentence: sentence,
-                      ),
-                    ),
+                        height: 900,
+                        child: ImageAndText(
+                          getImage: getImage,
+                          sentence: sentence,
+                          typing: typing,
+                          image: _image != null
+                              ? Image.file(_image)
+                              : Image.asset('assets/images/symbols/c/cat.jpg'),
+                        )),
                   ],
                 ),
               ),

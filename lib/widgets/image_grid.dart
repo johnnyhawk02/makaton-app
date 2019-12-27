@@ -24,6 +24,7 @@ class ImageGrid extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           // return object of type Dialog
+
           return FlatButton(
             onPressed: () {
               Navigator.of(context).pop();
