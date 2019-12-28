@@ -8,11 +8,9 @@ import "word_list.dart" show WordList;
 import 'imagePaths.dart' show imagePaths;
 import 'package:webmakaton/widgets/image_and_text_03.dart' show ImageAndText;
 import 'sentence.dart' show Sentence;
-import 'package:screenshot/screenshot.dart';
-import 'dart:async';
+ import 'dart:async';
 import 'dart:io';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:permission_handler/permission_handler.dart';
+ import 'package:permission_handler/permission_handler.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:webmakaton/widgets/image_grid.dart';
 import 'package:webmakaton/widgets/sentence_text_box.dart';
@@ -51,22 +49,10 @@ class _MyHomePageState extends State<MyHomePage> {
   bool typing = false;
   String _text = 'cow ostrich llama goat sheep octopus reindeer';
   Sentence sentence = Sentence('cow');
-  File imageFile = null;
-  String _appBarTitle = 'Makaton';
-  final ScreenshotController screenshotController = ScreenshotController();
-  final TextEditingController textEditingController = TextEditingController();
+   String _appBarTitle = 'Makaton';
+   final TextEditingController textEditingController = TextEditingController();
   File _image;
-  void setStateImageFile(File file) {
-    setState(() {
-      imageFile = file;
-    });
-  }
 
-  void setStateImageFileToNull() {
-    setState(() {
-      imageFile = null;
-    });
-  }
 
   void setTextFieldText(text) {
     print(textEditingController.text);
@@ -139,10 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Container(
                         height: 900,
                         child: ImageAndText(
-                          // remove ... screenshotController: screenshotController,
-                          // remove ... setStateImageFile: setStateImageFile,
-                          // remove ... setStateImageFileToNull: setStateImageFileToNull,
-                          // remove ... imageFile: imageFile,
+
                           getImage: getImage,
                           sentence: sentence,
                           typing: typing,
@@ -158,10 +141,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 sentence: sentence,
               ),
               ScreenShotAndSave(
-                child: ImageGrid(
-                  setTextFieldText: setTextFieldText,
-                  sentence: sentence,
-                ),
+                  child: ImageAndText(
+
+                    getImage: getImage,
+                    sentence: sentence,
+                    typing: typing,
+                    image: _image != null
+                        ? Image.file(_image)
+                        : Image.asset('assets/images/symbols/c/cat.jpg'),
+                  ),
               )
             ],
           ),
