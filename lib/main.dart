@@ -16,6 +16,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:webmakaton/widgets/image_grid.dart';
 import 'package:webmakaton/widgets/sentence_text_box.dart';
+import 'package:webmakaton/widgets/screen_shot_and_save.dart';
 
 void main() {
   //WidgetsFlutterBinding.ensureInitialized();
@@ -60,11 +61,13 @@ class _MyHomePageState extends State<MyHomePage> {
       imageFile = file;
     });
   }
+
   void setStateImageFileToNull() {
     setState(() {
       imageFile = null;
     });
   }
+
   void setTextFieldText(text) {
     print(textEditingController.text);
     setState(() {
@@ -154,7 +157,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 setTextFieldText: setTextFieldText,
                 sentence: sentence,
               ),
-              Text(_text + 'hi'),
+              ScreenShotAndSave(
+                child: ImageGrid(
+                  setTextFieldText: setTextFieldText,
+                  sentence: sentence,
+                ),
+              )
             ],
           ),
           bottomNavigationBar: TabBar(
