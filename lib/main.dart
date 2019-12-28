@@ -6,7 +6,7 @@ import 'package:webmakaton/widgets/image_grid.dart';
 import 'package:webmakaton/widgets/sign_and_symbol.dart';
 import "word_list.dart" show WordList;
 import 'imagePaths.dart' show imagePaths;
-import 'package:webmakaton/widgets/image_and_text_02.dart' show ImageAndText;
+import 'package:webmakaton/widgets/image_and_text_03.dart' show ImageAndText;
 import 'sentence.dart' show Sentence;
 import 'package:screenshot/screenshot.dart';
 import 'dart:async';
@@ -139,10 +139,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     Container(
                         height: 900,
                         child: ImageAndText(
-                          screenshotController: screenshotController,
-                          setStateImageFile: setStateImageFile,
-                          setStateImageFileToNull: setStateImageFileToNull,
-                          imageFile: imageFile,
+                          // remove ... screenshotController: screenshotController,
+                          // remove ... setStateImageFile: setStateImageFile,
+                          // remove ... setStateImageFileToNull: setStateImageFileToNull,
+                          // remove ... imageFile: imageFile,
                           getImage: getImage,
                           sentence: sentence,
                           typing: typing,

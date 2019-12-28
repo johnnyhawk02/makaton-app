@@ -52,54 +52,54 @@ class ImageAndText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    void _showDialog() {
-      // flutter defined function
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          // return object of type Dialog
-          return AlertDialog(
-            title: new Text("Image exported"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Center(child: CircularProgressIndicator()),
-              ],
-            ),
-            actions: <Widget>[
-              // usually buttons at the bottom of the dialog
-//            new FlatButton(
-//              child: new Text("Close"),
-//              onPressed: () {
-//                Navigator.of(context).pop();
-//              },
+//
+//    void _showDialog() {
+//      // flutter defined function
+//      showDialog(
+//        context: context,
+//        builder: (BuildContext context) {
+//          // return object of type Dialog
+//          return AlertDialog(
+//            title: new Text("Image exported"),
+//            content: Column(
+//              mainAxisSize: MainAxisSize.min,
+//              children: <Widget>[
+//                Center(child: CircularProgressIndicator()),
+//              ],
 //            ),
-            ],
-          );
-        },
-      );
-    }
+//            actions: <Widget>[
+//              // usually buttons at the bottom of the dialog
+////            new FlatButton(
+////              child: new Text("Close"),
+////              onPressed: () {
+////                Navigator.of(context).pop();
+////              },
+////            ),
+//            ],
+//          );
+//        },
+//      );
+//    }
 
-    void screenShot() {
-      _showDialog();
-      permissions();
-      //_imageFile = null;
-      _setStateImageFileToNull();
-      double _ratio =
-          2480 / MediaQuery.of(context).size.width; //scale to A4 paper width
-      _screenshotController.capture(pixelRatio: _ratio).then((File image) async {
-        print("Capture Done");
-        _setStateImageFile(image);
-
-        final result = await ImageGallerySaver.saveImage(image
-            .readAsBytesSync()); // Save image to gallery,  Needs plugin  https://pub.dev/packages/image_gallery_saver
-        Navigator.of(context, rootNavigator: true).maybePop(result);
-        //Navigator.of(context).maybePop();
-      }).catchError((onError) {
-        print(onError);
-      });
-    }
+//    void screenShot() {
+//      _showDialog();
+//      permissions();
+//      //_imageFile = null;
+//      _setStateImageFileToNull();
+//      double _ratio =
+//          2480 / MediaQuery.of(context).size.width; //scale to A4 paper width
+//      _screenshotController.capture(pixelRatio: _ratio).then((File image) async {
+//        print("Capture Done");
+//        _setStateImageFile(image);
+//
+//        final result = await ImageGallerySaver.saveImage(image
+//            .readAsBytesSync()); // Save image to gallery,  Needs plugin  https://pub.dev/packages/image_gallery_saver
+//        Navigator.of(context, rootNavigator: true).maybePop(result);
+//        //Navigator.of(context).maybePop();
+//      }).catchError((onError) {
+//        print(onError);
+//      });
+//    }
 
     return Screenshot(
       controller: _screenshotController,
@@ -114,12 +114,12 @@ class ImageAndText extends StatelessWidget {
 
 
             ),
-            FlatButton(
-                onPressed: screenShot,
-                child: Text('screenshoot')
-
-
-            ),
+//            FlatButton(
+//                onPressed: screenShot,
+//                child: Text('screenshoot')
+//
+//
+//            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 12.0),
               child: ClipRRect(
