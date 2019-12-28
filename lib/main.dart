@@ -50,12 +50,21 @@ class _MyHomePageState extends State<MyHomePage> {
   bool typing = false;
   String _text = 'cow ostrich llama goat sheep octopus reindeer';
   Sentence sentence = Sentence('cow');
-  File _imageFile;
+  File imageFile = null;
   String _appBarTitle = 'Makaton';
   final ScreenshotController screenshotController = ScreenshotController();
   final TextEditingController textEditingController = TextEditingController();
   File _image;
-
+  void setStateImageFile(File file) {
+    setState(() {
+      imageFile = file;
+    });
+  }
+  void setStateImageFileToNull() {
+    setState(() {
+      imageFile = null;
+    });
+  }
   void setTextFieldText(text) {
     print(textEditingController.text);
     setState(() {
@@ -127,6 +136,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     Container(
                         height: 900,
                         child: ImageAndText(
+                          screenshotController: screenshotController,
+                          setStateImageFile: setStateImageFile,
+                          setStateImageFileToNull: setStateImageFileToNull,
+                          imageFile: imageFile,
                           getImage: getImage,
                           sentence: sentence,
                           typing: typing,
