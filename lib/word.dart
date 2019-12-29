@@ -34,6 +34,7 @@ class Word {
     }
   }
   void setName (String s) => _name = s;
+  void setIsKeyword (bool val) => _isKeyword = val;
   String get name => _name;
   String get displayName => _displayName;
   String get imagePath => _imagePath;

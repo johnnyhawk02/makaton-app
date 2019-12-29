@@ -48,6 +48,7 @@ class ImageGrid extends StatelessWidget {
                             onTap: (){
                               _sentence.replace(sentenceIndex, myList[index]);
                               _setTextEditingControllerText(_sentence.toString());
+                              Navigator.of(context).pop();
                               },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -109,6 +110,10 @@ class ImageGrid extends StatelessWidget {
                   children: <Widget>[
                     Column(
                       children: <Widget>[
+                        Checkbox(value: _sentence.word[index].isKeyword, onChanged: (bool val){
+                          _sentence.word[index].setIsKeyword(val);
+                          _setTextEditingControllerText(_sentence.toString());
+                        } ,),
                         Image.asset(
                           'assets/images/symbols/' +
                               _sentence.word[index].imagePath,
