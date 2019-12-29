@@ -3,22 +3,26 @@ import 'package:webmakaton/sentence.dart';
 import '../imagePaths.dart' show imagePaths;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webmakaton/word_list.dart';
+import 'package:webmakaton/imagePaths.dart';
 
 //import 'package:flutter/foundation.dart';
 
 class ImageGrid extends StatelessWidget {
   const ImageGrid({
     Key key,
-    @required Sentence sentence,  setTextFieldText,
-  })  : _sentence = sentence, _setTextFieldText = setTextFieldText,
+    @required Sentence sentence,  setTextEditingControllerText,
+  })  : _sentence = sentence, _setTextEditingControllerText = setTextEditingControllerText,
         super(key: key);
 
   final Sentence _sentence;
-  final _setTextFieldText;
+  final _setTextEditingControllerText;
 
   @override
   Widget build(BuildContext context) {
-    void _showDialog(index) {
+    void _showDialog(sentenceIndex) {
+      List myList = WordList.filteredList(_sentence.word[sentenceIndex].displayName);
+      print (myList[0]);
       // flutter defined function
       showDialog(
         context: context,
@@ -30,37 +34,50 @@ class ImageGrid extends StatelessWidget {
               Navigator.of(context).pop();
             },
             child: AlertDialog(
-              title: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () =>
-                        _setTextFieldText('hello my little ${_sentence.word[index].displayName}')
-                    ,
-                    child: Image.asset(
-                      'assets/images/symbols/' + _sentence.word[index].imagePath,
+              title: Text("${_sentence.word[sentenceIndex].displayName}"),
+              content: SingleChildScrollView(
+                child: Container(
+                  height: 900,
+                  child: Column(
 
-                      fit: BoxFit.contain,
-                      height: MediaQuery.of(context).size.width * 0.1,
-                      //colorBlendMode: BlendMode.srcOver ,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: new Text("${_sentence.word[index].displayName}"),
-                  ),
-                ],
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Image.asset(
-                    'assets/images/signs/' + _sentence.word[index].imagePath,
+                    children: List<Widget>.generate(myList.length, (index) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          GestureDetector(
+                            onTap: (){
+                              _sentence.replace(sentenceIndex, myList[index]);
+                              _setTextEditingControllerText(_sentence.toString());
+                              },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  myList[index],
+                                  style: GoogleFonts.didactGothic(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize:
+                                    20,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.asset(
+                                    'assets/images/symbols/' +
+                                        imagePaths[myList[index]],
 
-                    fit: BoxFit.contain,
-                    height: MediaQuery.of(context).size.width * 0.99,
-                    //colorBlendMode: BlendMode.srcOver ,
+
+                                    height: 50,
+                                   ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
                   ),
-                ],
+                ),
               ),
               actions: <Widget>[
                  //usually buttons at the bottom of the dialog

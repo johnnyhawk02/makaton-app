@@ -53,13 +53,20 @@ class _MyHomePageState extends State<MyHomePage> {
    final TextEditingController textEditingController = TextEditingController();
   File _image;
 
+void setTextEditingControllerText(text) {
+  setState(() {
+    //_text = text;
+    sentence = Sentence(text);
+    textEditingController.text = text;
+  });
 
+}
   void setTextFieldText(text) {
     print(textEditingController.text);
     setState(() {
       //_text = text;
       sentence = Sentence(text);
-      //textEditingController.text = text;
+     // textEditingController.text = text;
     });
   }
 
@@ -119,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       textEditingController: textEditingController,
                       clearTextField: clearTextField,
                       setTextFieldText: setTextFieldText,
-                      sentence: sentence,
+                       sentence: sentence,
                       text: _text,
                     ),
                     Container(
@@ -137,19 +144,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               ImageGrid(
-                setTextFieldText: setTextFieldText,
+                setTextEditingControllerText: setTextEditingControllerText,
                 sentence: sentence,
               ),
-              ScreenShotAndSave(
-                  child: ImageAndText(
+              SingleChildScrollView(
+                child: ScreenShotAndSave(
+                    child: ImageAndText(
 
-                    getImage: getImage,
-                    sentence: sentence,
-                    typing: typing,
-                    image: _image != null
-                        ? Image.file(_image)
-                        : Image.asset('assets/images/symbols/c/cat.jpg'),
-                  ),
+                      getImage: getImage,
+                      sentence: sentence,
+                      typing: typing,
+                      image: _image != null
+                          ? Image.file(_image)
+                          : Image.asset('assets/images/symbols/c/cat.jpg'),
+                    ),
+                ),
               )
             ],
           ),

@@ -13,8 +13,11 @@ void permissions() async {
 class ScreenShotAndSave extends StatefulWidget {
   final Widget child;
   final Function takeScreenShot;
-  const ScreenShotAndSave({Key key, this.child, this.takeScreenShot})
-      : super(key: key);
+  const ScreenShotAndSave({
+    Key key,
+    this.child,
+    this.takeScreenShot,
+  }) : super(key: key);
 
   @override
   _ScreenShotAndSaveState createState() => _ScreenShotAndSaveState();
@@ -76,14 +79,9 @@ class _ScreenShotAndSaveState extends State<ScreenShotAndSave> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        FlatButton(
-            onPressed: screenShot,
-            child: Text('screenshoot')
-
-
-        ),
+        FlatButton(onPressed: screenShot, child: Text('screenshoot')),
         Container(
-          height: 800,
+          height: MediaQuery.of(context).size.width * 1.41429,
           child: Screenshot(
             controller: screenshotController,
             child: widget.child,

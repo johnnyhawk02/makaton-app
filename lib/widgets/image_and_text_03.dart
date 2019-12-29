@@ -53,7 +53,7 @@ class ImageAndText extends StatelessWidget {
 
     return Container(
       color: Colors.white,
-      height: 1500,
+      height: MediaQuery.of(context).size.width * 1.41429,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -67,14 +67,14 @@ class ImageAndText extends StatelessWidget {
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 500),
                   curve: Curves.fastOutSlowIn,
-                  width: _typing ? 1 : 400,
+                  width: _typing ? 1 : 300,
                   child: _image, //_typing? Container():_image,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Wrap(
               //mainAxisAlignment: MainAxisAlignment.center,
               spacing: 15.0, // gap between adjacent chips
@@ -93,14 +93,14 @@ class ImageAndText extends StatelessWidget {
                                 _sentence.word[index].imagePath
                             : 'assets/images/blank.jpg',
                         fit: BoxFit.contain,
-                        height: MediaQuery.of(context).size.width * 0.175,
+                        height: MediaQuery.of(context).size.width * 0.08,
                         //colorBlendMode: BlendMode.srcOver ,
                       ),
                       Text(
                         _sentence.word[index].displayName,
                         style: GoogleFonts.didactGothic(
                           fontWeight: FontWeight.normal,
-                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
                         ),
                       ),
                     ],
