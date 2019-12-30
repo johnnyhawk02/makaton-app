@@ -11,8 +11,10 @@ import 'package:webmakaton/imagePaths.dart';
 class ImageGrid extends StatelessWidget {
   const ImageGrid({
     Key key,
-    @required Sentence sentence,  setTextEditingControllerText,
-  })  : _sentence = sentence, _setTextEditingControllerText = setTextEditingControllerText,
+    @required Sentence sentence,
+    setTextEditingControllerText,
+  })  : _sentence = sentence,
+        _setTextEditingControllerText = setTextEditingControllerText,
         super(key: key);
 
   final Sentence _sentence;
@@ -21,8 +23,9 @@ class ImageGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _showDialog(sentenceIndex) {
-      List myList = WordList.filteredList(_sentence.word[sentenceIndex].displayName);
-      print (myList[0]);
+      List myList =
+          WordList.filteredList(_sentence.word[sentenceIndex].displayName);
+      print(myList[0]);
       // flutter defined function
       showDialog(
         context: context,
@@ -36,58 +39,70 @@ class ImageGrid extends StatelessWidget {
             child: AlertDialog(
               title: Text("${_sentence.word[sentenceIndex].displayName}"),
               content: SingleChildScrollView(
-                child: Container(
-                  height: 900,
-                  child: Column(
-
-                    children: List<Widget>.generate(myList.length, (index) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              _sentence.replace(sentenceIndex, myList[index]);
-                              _setTextEditingControllerText(_sentence.toString());
-                              Navigator.of(context).pop();
-                              },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  myList[index],
-                                  style: GoogleFonts.didactGothic(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize:
-                                    20,
-                                  ),
+                child: Column(
+                  children: <Widget>[
+                    Checkbox(
+                      value: _sentence.word[sentenceIndex].isKeyword,
+                      onChanged: (bool val) {
+                        print('checkboc clicked');
+                        _sentence.word[sentenceIndex].setIsKeyword(val);
+                        _setTextEditingControllerText(
+                          _sentence.toString(),
+                        );
+                      },
+                    ),
+                    Container(
+                      height: 1900,
+                      child: Column(
+                        children: List<Widget>.generate(myList.length, (index) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _sentence.replace(
+                                      sentenceIndex, myList[index]);
+                                  _setTextEditingControllerText(
+                                      _sentence.toString());
+                                  Navigator.of(context).pop();
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      myList[index],
+                                      style: GoogleFonts.didactGothic(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.asset(
+                                        'assets/images/symbols/' +
+                                            imagePaths[myList[index]],
+                                        height: 50,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.asset(
-                                    'assets/images/symbols/' +
-                                        imagePaths[myList[index]],
-
-
-                                    height: 50,
-                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
-                  ),
+                              ),
+                            ],
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               actions: <Widget>[
-                 //usually buttons at the bottom of the dialog
-              new FlatButton(
-                child: new Text("Close"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+                //usually buttons at the bottom of the dialog
+                new FlatButton(
+                  child: new Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ],
             ),
           );
@@ -95,59 +110,54 @@ class ImageGrid extends StatelessWidget {
       );
     }
 
-    return new GridView.count(
-      childAspectRatio: 1.3,
-      crossAxisCount: 3,
+    return new Wrap(
+      spacing: 15.0,
+      runSpacing: 15.0,
       children: List<Widget>.generate(_sentence.word.length, (index) {
-        return Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            GestureDetector(
-              onTap: () => _showDialog(index),
-              child: Card(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        return GestureDetector(
+          onTap: () => _showDialog(index),
+          child: Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Row(
                   children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Checkbox(value: _sentence.word[index].isKeyword, onChanged: (bool val){
-                          _sentence.word[index].setIsKeyword(val);
-                          _setTextEditingControllerText(_sentence.toString());
-                        } ,),
-                        Image.asset(
-                          'assets/images/symbols/' +
-                              _sentence.word[index].imagePath,
+                    //Text('key word:'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        _sentence.word[index].displayName,
+                        style: GoogleFonts.didactGothic(
+                          fontWeight: FontWeight.normal,
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                        ),
+                      ),
+                    ),
 
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.width * 0.1,
-                          //colorBlendMode: BlendMode.srcOver ,
-                        ),
-//                      Image.asset(
-//                        'assets/images/signs/' +
-//                            _sentence.word[index].imagePath,
+                    Image.asset(
+                      'assets/images/symbols/' +
+                          _sentence.word[index].imagePath,
+
+                      fit: BoxFit.contain,
+                      height: 40,
+                      //colorBlendMode: BlendMode.srcOver ,
+                    ),
 //
-//                        fit: BoxFit.contain,
-//                        height: MediaQuery.of(context).size.width * 0.2,
-//                        //colorBlendMode: BlendMode.srcOver ,
-//                      ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            _sentence.word[index].displayName,
-                            style: GoogleFonts.didactGothic(
-                              fontWeight: FontWeight.normal,
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.05,
-                            ),
-                          ),
-                        ),
-                      ],
+                    Checkbox(
+                      value: _sentence.word[index].isKeyword,
+                      onChanged: (bool val) {
+                        _sentence.word[index].setIsKeyword(val);
+                        _setTextEditingControllerText(
+                          _sentence.toString(),
+                        );
+                      },
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         );
       }),
     );

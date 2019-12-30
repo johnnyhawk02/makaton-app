@@ -65,7 +65,7 @@ class ImageAndText extends StatelessWidget {
               child: GestureDetector(
                 onTap: _getImage,
                 child: AnimatedContainer(
-                  duration: Duration(milliseconds: 500),
+                  duration: Duration(milliseconds: 200),
                   curve: Curves.fastOutSlowIn,
                   width: _typing ? 1 : 300,
                   child: _image, //_typing? Container():_image,
@@ -85,25 +85,29 @@ class ImageAndText extends StatelessWidget {
                     _sentence.replace(index, 'camel');
                     _fn(_sentence.toString());
                   },
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        _sentence.word[index].isKeyword
-                            ? 'assets/images/symbols/' +
-                                _sentence.word[index].imagePath
-                            : 'assets/images/blank.jpg',
-                        fit: BoxFit.contain,
-                        height: MediaQuery.of(context).size.width * 0.08,
-                        //colorBlendMode: BlendMode.srcOver ,
-                      ),
-                      Text(
-                        _sentence.word[index].displayName,
-                        style: GoogleFonts.didactGothic(
-                          fontWeight: FontWeight.normal,
-                          fontSize: MediaQuery.of(context).size.width * 0.04,
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 800),
+                    curve: Curves.easeInOut,
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          _sentence.word[index].isKeyword
+                              ? 'assets/images/symbols/' +
+                                  _sentence.word[index].imagePath
+                              : 'assets/images/blank.jpg',
+                          fit: BoxFit.contain,
+                          height:  (_typing ? 30 : 20),
+                          //colorBlendMode: BlendMode.srcOver ,
                         ),
-                      ),
-                    ],
+                        Text(
+                          _sentence.word[index].displayName,
+                          style: GoogleFonts.didactGothic(
+                            fontWeight: FontWeight.normal,
+                            fontSize: (_typing ? 20 : 10),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }),

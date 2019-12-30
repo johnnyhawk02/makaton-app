@@ -8,16 +8,16 @@ import "word_list.dart" show WordList;
 import 'imagePaths.dart' show imagePaths;
 import 'package:webmakaton/widgets/image_and_text_03.dart' show ImageAndText;
 import 'sentence.dart' show Sentence;
- import 'dart:async';
+import 'dart:async';
 import 'dart:io';
- import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:webmakaton/widgets/image_grid.dart';
 import 'package:webmakaton/widgets/sentence_text_box.dart';
 import 'package:webmakaton/widgets/screen_shot_and_save.dart';
 
 void main() {
-  //WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   permissions();
   runApp(MyApp());
 }
@@ -49,24 +49,25 @@ class _MyHomePageState extends State<MyHomePage> {
   bool typing = false;
   String _text = 'cow ostrich llama goat sheep octopus reindeer';
   Sentence sentence = Sentence('cow');
-   String _appBarTitle = 'Makaton';
-   final TextEditingController textEditingController = TextEditingController();
+  String _appBarTitle = 'Makaton';
+  final TextEditingController textEditingController = TextEditingController();
   File _image;
 
-void setTextEditingControllerText(text) {
-  setState(() {
-    //_text = text;
-    sentence = Sentence(text);
-    textEditingController.text = text;
-  });
+  void setTextEditingControllerText(text) {
+    setState(() {
+      //_text = text;
+      print('executing setTextEditingControllerText');
+      sentence = Sentence(text);
+      textEditingController.text = text;
+    });
+  }
 
-}
   void setTextFieldText(text) {
     print(textEditingController.text);
     setState(() {
       //_text = text;
       sentence = Sentence(text);
-     // textEditingController.text = text;
+      // textEditingController.text = text;
     });
   }
 
@@ -126,39 +127,41 @@ void setTextEditingControllerText(text) {
                       textEditingController: textEditingController,
                       clearTextField: clearTextField,
                       setTextFieldText: setTextFieldText,
-                       sentence: sentence,
+                      sentence: sentence,
                       text: _text,
                     ),
-                    Container(
-                        height: 900,
-                        child: ImageAndText(
 
+                    Container(
+                      height: 900,
+                      child: ScreenShotAndSave(
+                        child: ImageAndText(
                           getImage: getImage,
                           sentence: sentence,
                           typing: typing,
                           image: _image != null
                               ? Image.file(_image)
                               : Image.asset('assets/images/symbols/c/cat.jpg'),
-                        )),
+                        ),
+                      ),
+                    ),
                   ],
+                ),
+              ),
+              SingleChildScrollView(
+                child: ScreenShotAndSave(
+                  child: ImageAndText(
+                    getImage: getImage,
+                    sentence: sentence,
+                    typing: typing,
+                    image: _image != null
+                        ? Image.file(_image)
+                        : Image.asset('assets/images/symbols/c/cat.jpg'),
+                  ),
                 ),
               ),
               ImageGrid(
                 setTextEditingControllerText: setTextEditingControllerText,
                 sentence: sentence,
-              ),
-              SingleChildScrollView(
-                child: ScreenShotAndSave(
-                    child: ImageAndText(
-
-                      getImage: getImage,
-                      sentence: sentence,
-                      typing: typing,
-                      image: _image != null
-                          ? Image.file(_image)
-                          : Image.asset('assets/images/symbols/c/cat.jpg'),
-                    ),
-                ),
               )
             ],
           ),
