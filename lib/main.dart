@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
-          resizeToAvoidBottomPadding: false,
+          resizeToAvoidBottomPadding: true,
           appBar: AppBar(
             title: Text(_appBarTitle),
             actions: <Widget>[],
