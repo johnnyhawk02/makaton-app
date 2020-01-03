@@ -35,7 +35,7 @@ class _RandomWordState extends State<RandomWord> {
     print('${index} - $currentWordIndex ');
     indexesGuessed[index] = true;
     if (index == currentWordIndex) {
-      player.play(soundApplause);
+
       generateRandomImage();
     } else {
       this._speak(''
@@ -44,6 +44,7 @@ class _RandomWordState extends State<RandomWord> {
   }
 
   void generateRandomImage() {
+    player.play(soundApplause);
     Future.delayed(const Duration(milliseconds: 2000), () {
 
       setState(() {
@@ -55,7 +56,7 @@ class _RandomWordState extends State<RandomWord> {
       });
     });
 
-    this._speak(randomWordList[currentWordIndex]);
+    //this._speak(randomWordList[currentWordIndex]);
   }
 
   @override

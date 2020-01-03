@@ -51,7 +51,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/sounds/applause.mp3
+    - assets/applause.mp3
     - assets/images/
     - assets/images/symbols/a/
     - assets/images/symbols/b/
