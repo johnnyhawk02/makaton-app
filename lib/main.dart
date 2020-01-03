@@ -4,10 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:webmakaton/widgets/image_grid.dart';
 import 'package:webmakaton/widgets/sign_and_symbol.dart';
+import 'package:webmakaton/sentence.dart';
 import "word_list.dart" show WordList;
 import 'imagePaths.dart' show imagePaths;
 import 'package:webmakaton/widgets/image_and_text_03.dart' show ImageAndText;
-import 'sentence.dart' show Sentence;
+//import 'sentence.dart' show Sentence;
 import 'dart:async';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
@@ -15,6 +16,7 @@ import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:webmakaton/widgets/image_grid.dart';
 import 'package:webmakaton/widgets/sentence_text_box.dart';
 import 'package:webmakaton/widgets/screen_shot_and_save.dart';
+import 'widgets/random_word.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -120,6 +122,9 @@ class _MyHomePageState extends State<MyHomePage> {
           body: TabBarView(
             children: <Widget>[
               SingleChildScrollView(
+                child: RandomWord(),
+              ),
+              SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
@@ -145,18 +150,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ],
-                ),
-              ),
-              SingleChildScrollView(
-                child: ScreenShotAndSave(
-                  child: ImageAndText(
-                    getImage: getImage,
-                    sentence: sentence,
-                    typing: typing,
-                    image: _image != null
-                        ? Image.file(_image)
-                        : Image.asset('assets/images/symbols/c/cat.jpg'),
-                  ),
                 ),
               ),
               ImageGrid(

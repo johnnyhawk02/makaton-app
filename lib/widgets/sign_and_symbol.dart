@@ -1,6 +1,5 @@
 import 'package:webmakaton/sentence.dart';
-import 'package:webmakaton/sentence.dart';
-import '../imagePaths.dart' show imagePaths;
+ import '../imagePaths.dart' show imagePaths;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webmakaton/word_list.dart';
@@ -105,7 +104,7 @@ class _SignAndSymbolState extends State<SignAndSymbol> {
 
   void _generateRandomList(){
     setState(() {
-      myList = WordList.randomList(5);
+      myList = WordList.randomList(count:4,removeUnderscores: true);
     });
 
   }

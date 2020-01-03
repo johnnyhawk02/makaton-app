@@ -1,6 +1,5 @@
 import 'package:webmakaton/sentence.dart';
-import 'package:webmakaton/sentence.dart';
-import '../imagePaths.dart' show imagePaths;
+//import '../imagePaths.dart' show imagePaths;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webmakaton/word_list.dart';

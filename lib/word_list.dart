@@ -16,16 +16,19 @@ abstract class WordList {
     return myList;
   }
 
-  static List<String> randomList(int count) {
+  static List<String> randomList({int count, bool removeUnderscores}) {
     Random rnd = new Random();
     List<String> myList = List();
     //List<String> wordList = imagePaths.keys.toList();
 
     for (int i = 0; i < count; i++) {
-      myList.add(randomWordList[rnd.nextInt(randomWordList.length-1)]);
-      //myList.add(randomWordList[rnd.nextInt(5)+3]);
+      if (removeUnderscores) {
+        myList.add(underscoreToSpace(
+            randomWordList[rnd.nextInt(randomWordList.length - 1)]));
+      } else {
+        myList.add(randomWordList[rnd.nextInt(randomWordList.length - 1)]);
+      }
     }
-
     return myList;
   }
 }

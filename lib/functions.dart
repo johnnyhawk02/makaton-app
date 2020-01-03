@@ -15,7 +15,10 @@ String XXspaceToUnderscore(String s) => s.replaceAll(' ', '_');
 String spaceToWebSpace(String s) => s.replaceAll(' ', '%20');
 
 
-String XXunderscoreToSpace(String s) => s.replaceAll('_', ' ');
+String underscoreToSpace(String s) {
+  print ('hello underscrore to space');
+  return s.replaceAll('_', ' ');
+}
 
 String removeDash(String s)=> s.replaceAll('-', '');
 
