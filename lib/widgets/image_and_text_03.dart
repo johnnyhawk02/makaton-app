@@ -59,7 +59,7 @@ class ImageAndText extends StatelessWidget {
         children: <Widget>[
 
           Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 12.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 30.0),
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
               child: GestureDetector(

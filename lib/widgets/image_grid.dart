@@ -129,7 +129,7 @@ class ImageGrid extends StatelessWidget {
                         _sentence.word[index].displayName,
                         style: GoogleFonts.didactGothic(
                           fontWeight: FontWeight.normal,
-                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontSize: 15,
                         ),
                       ),
                     ),
@@ -139,7 +139,7 @@ class ImageGrid extends StatelessWidget {
                           _sentence.word[index].imagePath,
 
                       fit: BoxFit.contain,
-                      height: 40,
+                      height: 20,
                       //colorBlendMode: BlendMode.srcOver ,
                     ),
 //
