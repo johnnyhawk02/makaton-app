@@ -112,7 +112,7 @@ class _RandomWordState extends State<RandomWord> {
                   'assets/images/symbols/' +
                       randomWordList[currentWordIndex].path,
                   fit: BoxFit.contain,
-                  height: 250,
+                  height: 200,
                 ),
               ),
               Column(
@@ -136,7 +136,7 @@ class _RandomWordState extends State<RandomWord> {
                                 ? FontWeight.bold
                                 : FontWeight.normal,
                             //fontWeight: FontWeight.bold,
-                            fontSize: 40,
+                            fontSize: 35,
                           ),
                         )),
                       ),
