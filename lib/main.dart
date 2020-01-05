@@ -119,63 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text(_appBarTitle),
             actions: <Widget>[],
           ),
-          body: TabBarView(
-            children: <Widget>[
-              SingleChildScrollView(
-                child: RandomWord(),
-              ),
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    SentenceTextBox(
-                      textEditingController: textEditingController,
-                      clearTextField: clearTextField,
-                      setTextFieldText: setTextFieldText,
-                      sentence: sentence,
-                      text: _text,
-                    ),
+          body: Center(child: RandomWord()),
 
-                    Container(
-                      height: 900,
-                      child: ScreenShotAndSave(
-                        child: ImageAndText(
-                          getImage: getImage,
-                          sentence: sentence,
-                          typing: typing,
-                          image: _image != null
-                              ? Image.file(_image)
-                              : Image.asset('assets/images/symbols/c/cat.jpg'),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ImageGrid(
-                setTextEditingControllerText: setTextEditingControllerText,
-                sentence: sentence,
-              )
-            ],
-          ),
-          bottomNavigationBar: TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(Icons.home),
-              ),
-              Tab(
-                icon: Icon(Icons.settings),
-              ),
-              Tab(
-                icon: Icon(Icons.sentiment_very_satisfied),
-              ),
-            ],
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.black54,
-            indicatorSize: TabBarIndicatorSize.label,
-            indicatorPadding: EdgeInsets.all(5.0),
-            indicatorColor: Colors.black,
-          ),
         ),
       ),
     );

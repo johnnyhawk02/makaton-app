@@ -20,7 +20,7 @@ class SignAndSymbol extends StatefulWidget {
 
 class _SignAndSymbolState extends State<SignAndSymbol> {
   int index = 0;
-  List<String> myList; // = WordList.randomList(5);
+  List<NameAndPath> myList; // = WordList.randomList(5);
 
   String _currentItemSelected;
   @override
@@ -61,38 +61,6 @@ class _SignAndSymbolState extends State<SignAndSymbol> {
                       fontSize: MediaQuery.of(context).size.width * 0.1,
                     ),
                   ),
-                  DropdownButton<String>(
-
-                    items: myList==null?[]:myList.map((String dropDownStringItem) {
-                      return DropdownMenuItem<String>(
-                        value: dropDownStringItem,
-                        child: Row(
-                          children: <Widget>[
-                            Image.asset(
-                              'assets/images/symbols/${
-                                  imagePaths.containsKey(dropDownStringItem)?
-                                  imagePaths[dropDownStringItem]:imagePaths['cat']}',
-                              fit: BoxFit.contain,
-                              height: MediaQuery.of(context).size.width * 0.1,
-                              //colorBlendMode: BlendMode.srcOver ,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(dropDownStringItem),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-
-                    onChanged: (String newValueSelected) {
-                      // Your code to execute, when a menu item is selected from drop down
-                      _onDropDownItemSelected(newValueSelected);
-                    },
-
-                    value: _currentItemSelected,
-
-                  ),
                 ],
               ),
             ],
@@ -104,7 +72,7 @@ class _SignAndSymbolState extends State<SignAndSymbol> {
 
   void _generateRandomList(){
     setState(() {
-      myList = WordList.randomList(count:4,removeUnderscores: true);
+      myList = WordList.randomList(4);
     });
 
   }

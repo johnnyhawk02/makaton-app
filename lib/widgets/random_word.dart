@@ -16,56 +16,82 @@ class RandomWord extends StatefulWidget {
 enum TtsState { playing, stopped }
 
 class _RandomWordState extends State<RandomWord> {
-  List<String> randomWordList =
-      WordList.randomList(count: 4, removeUnderscores: true);
+  List<NameAndPath> randomWordList = WordList.randomList(4);
   FlutterTts flutterTts = FlutterTts();
   TtsState ttsState;
   int currentWordIndex;
+  bool guessedRight = false;
   List<bool> indexesGuessed = [];
   static AudioCache player = new AudioCache();
   final soundApplause = "applause.mp3";
-
+  final soundWrong = "wrong.mp3";
 
   Future _speak(phrase) async {
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setPitch(1.0);
     var result = await flutterTts.speak(phrase);
     if (result == 1) setState(() => ttsState = TtsState.playing);
   }
 
-  bool myGuess(index) {
-    print('${index} - $currentWordIndex ');
-    indexesGuessed[index] = true;
-    if (index == currentWordIndex) {
-
-      generateRandomImage();
-    } else {
-      this._speak(''
-          'wrong');
+  void myGuess(index) {
+    if (!guessedRight) {
+      print('${index} - $currentWordIndex ');
+      indexesGuessed[index] = true;
+      if (index == currentWordIndex) {
+        generateRandomImage();
+      } else {
+        player.play(soundWrong);
+        this._speak('no');
+      }
     }
   }
 
   void generateRandomImage() {
-    player.play(soundApplause);
-    Future.delayed(const Duration(milliseconds: 2000), () {
-
-      setState(() {
-        for (int i = 0; i < 4; i++) {
-          indexesGuessed[i] = false;
-        }
-        currentWordIndex = Random().nextInt(4);
-        randomWordList = WordList.randomList(count: 4, removeUnderscores: true);
-      });
+    setState(() {
+      guessedRight = true;
     });
+
+    player.play(soundApplause);
+    String phrase;
+    phrase = 'well done it was: ${randomWordList[currentWordIndex].name}. ';
+    phrase += '${randomWordList[currentWordIndex].name} is spelt: ';
+    for (int i = 0; i < randomWordList[currentWordIndex].name.length; i++) {
+      phrase += '${randomWordList[currentWordIndex].name[i]} ';
+    }
+    _speak(phrase);
+    Future.delayed(
+      const Duration(milliseconds: 4500),
+      () {
+        setState(
+          () {
+            guessedRight = false;
+            for (int i = 0; i < 4; i++) {
+              indexesGuessed[i] = false;
+            }
+            currentWordIndex = Random().nextInt(4);
+            randomWordList = WordList.randomList(4);
+          },
+        );
+      },
+    );
 
     //this._speak(randomWordList[currentWordIndex]);
   }
 
+  void speakCurrentWordWithHelp() {
+    String phrase;
+    phrase = randomWordList[currentWordIndex].name;
+    phrase += ' begins with the letter: ';
+    phrase += randomWordList[currentWordIndex].name[0];
+    _speak(phrase);
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
 
     super.initState();
     currentWordIndex = Random().nextInt(4);
-    randomWordList = WordList.randomList(count: 4, removeUnderscores: true);
+    randomWordList = WordList.randomList(4);
     for (int i = 0; i < 4; i++) {
       indexesGuessed.add(false);
     }
@@ -80,33 +106,35 @@ class _RandomWordState extends State<RandomWord> {
         children: <Widget>[
           Column(
             children: <Widget>[
-              GestureDetector (
-                onTap: ()=>_speak(randomWordList[currentWordIndex]),
-                child:
-
-              Image.asset(
-                'assets/images/symbols/' +
-                    //bug here need underscores
-                    imagePaths[randomWordList[currentWordIndex]],
-
-                fit: BoxFit.contain,
-                height: 250,
-                //colorBlendMode: BlendMode.srcOver ,
+              GestureDetector(
+                onTap: speakCurrentWordWithHelp,
+                child: Image.asset(
+                  'assets/images/symbols/' +
+                      randomWordList[currentWordIndex].path,
+                  fit: BoxFit.contain,
+                  height: 250,
+                ),
               ),
-    ),
               Column(
                 children: List<Widget>.generate(randomWordList.length, (index) {
-                  return FlatButton(
-                    onPressed: () => myGuess(index),
-                    child: Card(
-                      //color: indexesGuessed[index] ? Colors.red : Colors.white,
+                  return Card(
+                    //color: indexesGuessed[index] ? Colors.red : Colors.white,
+                    child: FlatButton(
+                      onPressed: () => myGuess(index),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: (Text(
-                          randomWordList[index],
+                          randomWordList[index].name,
                           style: GoogleFonts.didactGothic(
-                            textStyle: TextStyle(color: indexesGuessed[index]?Colors.red:Colors.black),
-                                  fontWeight: FontWeight.normal,
+                            textStyle: TextStyle(
+                                color: indexesGuessed[index] &&
+                                        !(index == currentWordIndex)
+                                    ? Colors.red
+                                    : Colors.black),
+                            fontWeight: indexesGuessed[index] &&
+                                    (index == currentWordIndex)
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                             //fontWeight: FontWeight.bold,
                             fontSize: 40,
                           ),
