@@ -88,7 +88,6 @@ class _RandomWordState extends State<RandomWord> {
 
   @override
   void initState() {
-
     super.initState();
     currentWordIndex = Random().nextInt(4);
     randomWordList = WordList.randomList(4);
@@ -99,66 +98,83 @@ class _RandomWordState extends State<RandomWord> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-  //elevation: 10,
-        child: Padding(
-          padding: const EdgeInsets.all(3.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: speakCurrentWordWithHelp,
-                    child: Image.asset(
-                      'assets/images/symbols/' +
-                          randomWordList[currentWordIndex].path,
-                      fit: BoxFit.contain,
-                      height: 150,
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.blue, Colors.lightBlueAccent])),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          elevation: 10,
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: speakCurrentWordWithHelp,
+                      child: Image.asset(
+                        'assets/images/symbols/' +
+                            randomWordList[currentWordIndex].path,
+                        fit: BoxFit.contain,
+                        height: 150,
+                      ),
                     ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children:
+                          List<Widget>.generate(randomWordList.length, (index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 6, horizontal: 12),
+                          child: RaisedButton(
+                            elevation: 4,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            //color: Colors.red,
 
-                    children: List<Widget>.generate(randomWordList.length, (index) {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),                       //color: indexesGuessed[index] ? Colors.red : Colors.white,
-                        child: FlatButton(
-                          onPressed: () => myGuess(index),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: (Text(
-                              randomWordList[index].name,
-                              style: GoogleFonts.didactGothic(
-                                textStyle: TextStyle(
-                                    color: indexesGuessed[index] &&
-                                            !(index == currentWordIndex)
-                                        ? Colors.grey
-                                        : Colors.black),
-                                fontWeight: indexesGuessed[index] &&
-                                        (index == currentWordIndex)
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                                //fontWeight: FontWeight.bold,
-                                fontSize: 35,
-                              ),
-                            )),
+                            onPressed: () => myGuess(index),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: (Text(
+                                randomWordList[index].name,
+                                style: GoogleFonts.didactGothic(
+                                  textStyle: TextStyle(
+                                      color: indexesGuessed[index] &&
+                                              !(index == currentWordIndex)
+                                          ? Colors.grey
+                                          : Colors.black),
+                                  fontWeight: indexesGuessed[index] &&
+                                          (index == currentWordIndex)
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  //fontWeight: FontWeight.bold,
+                                  fontSize: 35,
+                                ),
+                              )),
+                            ),
                           ),
-                        ),
-                      );
-                    }),
-                  ),
-                ],
-              ),
-            ],
+                        );
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Container(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
