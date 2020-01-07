@@ -120,7 +120,7 @@ class ImageGrid extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Row(
+                Column(
                   children: <Widget>[
                     //Text('key word:'),
                     Padding(
@@ -139,7 +139,7 @@ class ImageGrid extends StatelessWidget {
                           _sentence.word[index].imagePath,
 
                       fit: BoxFit.contain,
-                      height: 20,
+                      height: 30,
                       //colorBlendMode: BlendMode.srcOver ,
                     ),
 //

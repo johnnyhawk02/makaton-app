@@ -86,13 +86,14 @@ class _ScreenShotAndSaveState extends State<ScreenShotAndSave> {
             child: widget.child,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(2.0),
+        Positioned(
+          top: 5.0,
+          right: 10.0,
           child: RaisedButton(
             color: Colors.white,
             onPressed: screenShot,
-            elevation: 5,
-            child: Text('screenshoot'),
+            elevation: 3,
+            child: Icon(Icons.file_download),
           ),
         ),
       ],
