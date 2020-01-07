@@ -77,14 +77,22 @@ class _ScreenShotAndSaveState extends State<ScreenShotAndSave> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: <Widget>[
-        FlatButton(onPressed: screenShot, child: Text('screenshoot')),
         Container(
           height: MediaQuery.of(context).size.width * 1.41429,
           child: Screenshot(
             controller: screenshotController,
             child: widget.child,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: RaisedButton(
+            color: Colors.white,
+            onPressed: screenShot,
+            elevation: 5,
+            child: Text('screenshoot'),
           ),
         ),
       ],

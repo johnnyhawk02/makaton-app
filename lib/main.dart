@@ -122,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _children = [
       Center(child: RandomWord()),
       Container(
-        height: 1600,
+        //height: 1600,
         child: Column(
 
           mainAxisSize: MainAxisSize.max,
@@ -158,6 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
             sentence: sentence,
             text: _text,
           ),
+
           ImageGrid(
             setTextEditingControllerText: setTextEditingControllerText,
             sentence: sentence,
@@ -167,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Color.fromARGB(250, 255, 255, 255),
 
         resizeToAvoidBottomPadding: true,
         appBar: AppBar(

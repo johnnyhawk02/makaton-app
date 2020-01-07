@@ -6,7 +6,10 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../functions.dart';
 import '../imagePaths.dart';
+import '../random_phrase.dart';
 import '../word_list.dart';
+
+
 
 class RandomWord extends StatefulWidget {
   @override
@@ -34,14 +37,14 @@ class _RandomWordState extends State<RandomWord> {
   }
 
   void myGuess(index) {
-    if (!guessedRight) {
+    if (!guessedRight && indexesGuessed[index] == false ) {
       print('${index} - $currentWordIndex ');
       indexesGuessed[index] = true;
       if (index == currentWordIndex) {
         generateRandomImage();
       } else {
         player.play(soundWrong);
-        this._speak('no');
+        this._speak(RandomPhrase.no());
       }
     }
   }
@@ -53,7 +56,7 @@ class _RandomWordState extends State<RandomWord> {
 
     player.play(soundApplause);
     String phrase;
-    phrase = 'well done it was: ${randomWordList[currentWordIndex].name}. ';
+    phrase = '${RandomPhrase.wellDone()}: ';
     phrase += '${randomWordList[currentWordIndex].name} is spelt: ';
     for (int i = 0; i < randomWordList[currentWordIndex].name.length; i++) {
       phrase += '${randomWordList[currentWordIndex].name[i]} ';
@@ -98,19 +101,24 @@ class _RandomWordState extends State<RandomWord> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.blue, Colors.lightBlueAccent])),
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 5000),
+      curve: Curves.fastOutSlowIn,
+
+//      decoration: BoxDecoration(
+//        gradient: LinearGradient(
+//          begin: Alignment.topCenter,
+//          end: Alignment.bottomCenter,
+//          colors: [Colors.blue, Colors.lightBlueAccent],
+//        ),
+//      ),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25.0),
           ),
-          elevation: 10,
+          elevation: 1,
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: Column(
@@ -136,7 +144,8 @@ class _RandomWordState extends State<RandomWord> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 6, horizontal: 12),
                           child: RaisedButton(
-                            elevation: 4,
+                            elevation: (guessedRight&&currentWordIndex==index)?4:1,
+
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0),
@@ -150,15 +159,15 @@ class _RandomWordState extends State<RandomWord> {
                                 randomWordList[index].name,
                                 style: GoogleFonts.didactGothic(
                                   textStyle: TextStyle(
-                                      color: indexesGuessed[index] &&
+                                      color: (indexesGuessed[index]||guessedRight) &&
                                               !(index == currentWordIndex)
-                                          ? Colors.grey
+                                          ? Colors.grey[100]
                                           : Colors.black),
-                                  fontWeight: indexesGuessed[index] &&
-                                          (index == currentWordIndex)
-                                      ? FontWeight.bold
-                                      : FontWeight.normal,
-                                  //fontWeight: FontWeight.bold,
+//                                  fontWeight: indexesGuessed[index] &&
+//                                          (index == currentWordIndex)
+//                                      ? FontWeight.bold
+//                                      : FontWeight.normal,
+                                  fontWeight: FontWeight.normal,
                                   fontSize: 35,
                                 ),
                               )),

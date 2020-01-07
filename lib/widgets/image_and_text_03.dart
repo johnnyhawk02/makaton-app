@@ -51,69 +51,77 @@ class ImageAndText extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-    return Container(
-      color: Colors.white,
-      height: MediaQuery.of(context).size.width * 1.41429,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Material(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
 
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 30.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              child: GestureDetector(
-                onTap: _getImage,
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
-                  curve: Curves.fastOutSlowIn,
-                  width: _typing ? 1 : 300,
-                  child: _image, //_typing? Container():_image,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 10.0),
+              child: Text(
+                'Makaton stories',
+                style: GoogleFonts.didactGothic(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 35,
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Wrap(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 15.0, // gap between adjacent chips
-              runSpacing: 25.0, // gap between lines
-              children: List<Widget>.generate(_sentence.word.length, (index) {
-                return InkWell(
-                  onTap: () {
-                    _sentence.replace(index, 'camel');
-                    _fn(_sentence.toString());
-                  },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 800),
-                    curve: Curves.easeInOut,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          _sentence.word[index].isKeyword
-                              ? 'assets/images/symbols/' +
-                                  _sentence.word[index].imagePath
-                              : 'assets/images/blank.jpg',
-                          fit: BoxFit.contain,
-                          height:  (_typing ? 30 : 20),
-                          //colorBlendMode: BlendMode.srcOver ,
-                        ),
-                        Text(
-                          _sentence.word[index].displayName,
-                          style: GoogleFonts.didactGothic(
-                            fontWeight: FontWeight.normal,
-                            fontSize: (_typing ? 20 : 10),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
+              child: Text(
+                'Subtitle here',
+                style: GoogleFonts.didactGothic(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 25,
+                ),
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(40.0, 20.0, 40.0, 10.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                child: GestureDetector(
+                  onTap: _getImage,
+                  child: _image,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Wrap(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 15.0, // gap between adjacent chips
+                runSpacing: 25.0, // gap between lines
+                children: List<Widget>.generate(_sentence.word.length, (index) {
+                  return Column(
+                    children: [
+                      Image.asset(
+                        _sentence.word[index].isKeyword
+                            ? 'assets/images/symbols/' +
+                                _sentence.word[index].imagePath
+                            : 'assets/images/blank.jpg',
+                        fit: BoxFit.contain,
+                        height: 30,
+                        //colorBlendMode: BlendMode.srcOver ,
+                      ),
+                      Text(
+                        _sentence.word[index].displayName,
+                        style: GoogleFonts.didactGothic(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

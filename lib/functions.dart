@@ -1,3 +1,5 @@
+import 'dart:math' show Random;
+
 String insideBrackets(String s) => s.split("(")[1].split(")")[0];
 
 String beforeBrackets(String s) => s.split("(")[0];
@@ -14,13 +16,12 @@ String XXspaceToUnderscore(String s) => s.replaceAll(' ', '_');
 
 String spaceToWebSpace(String s) => s.replaceAll(' ', '%20');
 
-
 String underscoreToSpace(String s) {
-  print ('hello underscrore to space');
+  print('hello underscrore to space');
   return s.replaceAll('_', ' ');
 }
 
-String removeDash(String s)=> s.replaceAll('-', '');
+String removeDash(String s) => s.replaceAll('-', '');
 
 String removeIllegalCharacters(String n) {
   const String allowed =
@@ -34,5 +35,3 @@ String removeIllegalCharacters(String n) {
   }
   return newString;
 }
-
-
