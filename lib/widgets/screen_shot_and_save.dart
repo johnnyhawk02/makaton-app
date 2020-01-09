@@ -80,7 +80,7 @@ class _ScreenShotAndSaveState extends State<ScreenShotAndSave> {
     return Stack(
       children: <Widget>[
         Container(
-          height: MediaQuery.of(context).size.width * 1.41429,
+          //height: MediaQuery.of(context).size.width * 1.41429,
           child: Screenshot(
             controller: screenshotController,
             child: widget.child,

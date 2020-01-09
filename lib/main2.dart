@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       clearTextField: clearTextField,
                       setTextFieldText: setTextFieldText,
                       sentence: sentence,
-                      text: _text,
+                      //text: _text,
                     ),
 
                     Container(

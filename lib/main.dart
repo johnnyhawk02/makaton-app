@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:webmakaton/widgets/image_grid.dart';
+import 'package:webmakaton/widgets/sentence_editor.dart';
 import 'package:webmakaton/widgets/sign_and_symbol.dart';
 import 'package:webmakaton/sentence.dart';
 import "word_list.dart" show WordList;
@@ -49,7 +50,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool typing = false;
-  String _text = 'cow ostrich llama goat sheep octopus reindeer';
+  //String _text = 'cow ostrich llama goat sheep octopus reindeer';
   Sentence sentence = Sentence('cow');
   String _appBarTitle = 'Makaton';
   final TextEditingController textEditingController = TextEditingController();
@@ -86,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
       () {
         print(textEditingController.text);
         sentence = Sentence('');
-        _text = 'cleared';
+        //_text = 'cleared';
 
         textEditingController.text = '';
       },
@@ -127,13 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-//            SentenceTextBox(
-//              textEditingController: textEditingController,
-//              clearTextField: clearTextField,
-//              setTextFieldText: setTextFieldText,
-//              sentence: sentence,
-//              text: _text,
-//            ),
+
             Center(
               child: ScreenShotAndSave(
                 child: ImageAndText(
@@ -156,10 +151,10 @@ class _MyHomePageState extends State<MyHomePage> {
             clearTextField: clearTextField,
             setTextFieldText: setTextFieldText,
             sentence: sentence,
-            text: _text,
+            //text: _text,
           ),
 
-          ImageGrid(
+          SentenceEditor(
             setTextEditingControllerText: setTextEditingControllerText,
             sentence: sentence,
           ),
@@ -168,7 +163,8 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color.fromARGB(250, 255, 255, 255),
+        backgroundColor:Colors.grey[200],
+
 
         resizeToAvoidBottomPadding: true,
         appBar: AppBar(

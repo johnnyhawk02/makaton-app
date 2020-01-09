@@ -22,8 +22,11 @@ class ImageGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _showDialog(sentenceIndex) {
-      List myList =
-          WordList.filteredList(_sentence.word[sentenceIndex].displayName);
+      String searchWord = _sentence.word[sentenceIndex].displayName;
+
+      List myList = WordList.filteredList(searchWord.length == 0
+          ? 'cxcxcx'
+          : searchWord.substring(0, searchWord.length > 2? 3:searchWord.length));
       print(myList[0]);
       // flutter defined function
       showDialog(
@@ -31,27 +34,18 @@ class ImageGrid extends StatelessWidget {
         builder: (BuildContext context) {
           // return object of type Dialog
 
-          return FlatButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: AlertDialog(
-              title: Text("${_sentence.word[sentenceIndex].displayName}"),
-              content: SingleChildScrollView(
+          return AlertDialog(
+            title: Text("${_sentence.word[sentenceIndex].displayName}"),
+            content: FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    Checkbox(
-                      value: _sentence.word[sentenceIndex].isKeyword,
-                      onChanged: (bool val) {
-                        print('checkboc clicked');
-                        _sentence.word[sentenceIndex].setIsKeyword(val);
-                        _setTextEditingControllerText(
-                          _sentence.toString(),
-                        );
-                      },
-                    ),
+
                     Container(
-                      height: 1900,
+                      //height: 1900,
                       child: Column(
                         children: List<Widget>.generate(myList.length, (index) {
                           return Column(
@@ -94,44 +88,81 @@ class ImageGrid extends StatelessWidget {
                   ],
                 ),
               ),
-              actions: <Widget>[
-                //usually buttons at the bottom of the dialog
-                new FlatButton(
-                  child: new Text("Close"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
             ),
+            actions: <Widget>[
+              //usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           );
         },
       );
     }
 
     return new Wrap(
-      spacing: 15.0,
-      runSpacing: 15.0,
+      spacing: 1.0,
+      runSpacing: 2.0,
       children: List<Widget>.generate(_sentence.word.length, (index) {
         return GestureDetector(
           onTap: () => _showDialog(index),
           child: Card(
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+
                 Column(
                   children: <Widget>[
-                    //Text('key word:'),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        _sentence.word[index].displayName,
-                        style: GoogleFonts.didactGothic(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
+                    Row(
+                      children: <Widget>[
+                        Flexible(
+                           child: TextField(
+                            keyboardType: TextInputType.text,
+
+                            //controller: _textEditingController,
+                            onChanged: (text) {
+                              // _setTextFieldText(text);
+                              // print("First text field: $text");
+                            },
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.clear),
+                                  onPressed: (){},// _clearTextField,
+
+                                ),
+                                hintText: 'Display Name'),
+                          ),
                         ),
-                      ),
+
+                        Flexible(
+                           child: TextField(
+                            keyboardType: TextInputType.text,
+
+                            //controller: _textEditingController,
+                            onChanged: (text) {
+                              // _setTextFieldText(text);
+                              // print("First text field: $text");
+                            },
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.clear),
+                                  onPressed: (){},// _clearTextField,
+
+                                ),
+                                hintText: 'Symbol Name'),
+                          ),
+                        ),
+                      ],
                     ),
 
                     Image.asset(
@@ -143,14 +174,35 @@ class ImageGrid extends StatelessWidget {
                       //colorBlendMode: BlendMode.srcOver ,
                     ),
 //
-                    Checkbox(
-                      value: _sentence.word[index].isKeyword,
-                      onChanged: (bool val) {
-                        _sentence.word[index].setIsKeyword(val);
-                        _setTextEditingControllerText(
-                          _sentence.toString(),
-                        );
-                      },
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Text(
+                            _sentence.word[index].displayName ==
+                                    _sentence.word[index].name
+                                ? '${_sentence.word[index].name}'
+                                : '${_sentence.word[index].displayName} (${_sentence.word[index].name})',
+                            style: GoogleFonts.didactGothic(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+//                        _sentence.word[index].name ==
+//                                _sentence.word[index].displayName
+//                            ? Container()
+//                            : Padding(
+//                                padding: const EdgeInsets.all(3.0),
+//                                child: Text(
+//                                  '(${_sentence.word[index].name})',
+//                                  style: GoogleFonts.didactGothic(
+//                                    fontWeight: FontWeight.normal,
+//                                    fontSize: 18,
+//                                  ),
+//                                ),
+//                              ),
+                      ],
                     ),
                   ],
                 ),

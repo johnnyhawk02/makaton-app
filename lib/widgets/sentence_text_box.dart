@@ -9,13 +9,13 @@ class SentenceTextBox extends StatelessWidget {
   const SentenceTextBox({
     Key key,
     @required Sentence sentence,
-    @required text,
+    //@required text,
     @required textEditingController,
     @required setTextFieldText,
     //@required setSentence,
     @required clearTextField,
 
-  })  : _text = text,
+  })  : //_text = text,
        // _setSentence = setSentence,
         _sentence = sentence,
         _setTextFieldText = setTextFieldText,
@@ -23,7 +23,7 @@ class SentenceTextBox extends StatelessWidget {
         _clearTextField = clearTextField,
         super(key: key);
 
-  final String _text;
+  //final String _text;
   final Sentence _sentence;
   final _setTextFieldText;
   //final _setSentence;
