@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webmakaton/word_list.dart';
 import 'package:webmakaton/imagePaths.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 //import 'package:flutter/foundation.dart';
 
 class SentenceEditor extends StatefulWidget {
   const SentenceEditor({
     Key key,
-
     @required Sentence sentence,
     setTextEditingControllerText,
   })  : _sentence = sentence,
@@ -38,117 +38,151 @@ class _SentenceEditorState extends State<SentenceEditor> {
         child: Column(
           children: <Widget>[
             Container(
-              child: Row(
-                children: <Widget>[
-                  Flexible(
-                    child: Padding(
+              child: Card(
+                margin: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        keyboardType: TextInputType.text,
-                        controller: symbolTextEditingController,
-                        onChanged: (text) {
-                          setState(() {
-                            widget._sentence.replace(currentWordIndex, text);
-  widget._setTextEditingControllerText (widget._sentence.toString());
-                          });
-                           //widget._setTextFieldText(text);
-                          // print("First text field: $text");
-                        },
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.clear),
-                              onPressed: () {}, // _clearTextField,
-                            ),
-                            hintText: 'Symbol Name'),
+                      child: Text(
+                        widget._sentence.word[currentWordIndex].displayName ==
+                                widget._sentence.word[currentWordIndex].name
+                            ? '${widget._sentence.word[currentWordIndex].name}'
+                            : '${widget._sentence.word[currentWordIndex].displayName} (${widget._sentence.word[currentWordIndex].name})',
+                        style: GoogleFonts.didactGothic(
+                          fontWeight: FontWeight.normal,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        keyboardType: TextInputType.text,
-                        controller: displayNameTextEditingController,
-                        onChanged: (text) {
-                          // _setTextFieldText(text);
-                          // print("First text field: $text");
-                        },
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.clear),
-                              onPressed: () {}, // _clearTextField,
-                            ),
-                            hintText: 'Symbol Name'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            new Wrap(
-              spacing: 1.0,
-              runSpacing: 2.0,
-              children:
-                  List<Widget>.generate(widget._sentence.word.length, (index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      print('gesture detector');
-                      symbolTextEditingController.text =
-                          widget._sentence.word[index].name;
-                      displayNameTextEditingController.text =
-                          widget._sentence.word[index].displayName;
-                      currentWordIndex = index;
-                    });
-                  },
-                  child: Card(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
+                    Row(
                       children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Image.asset(
-                              'assets/images/symbols/' +
-                                  widget._sentence.word[index].imagePath,
+                        Container(
+                          width: 100,
+                          child: Image.asset(
+                            'assets/images/symbols/' +
+                                widget
+                                    ._sentence.word[currentWordIndex].imagePath,
 
-                              fit: BoxFit.contain,
-                              height: 30,
-                              //colorBlendMode: BlendMode.srcOver ,
-                            ),
+                            fit: BoxFit.contain,
+                            height: 80,
+                            //colorBlendMode: BlendMode.srcOver ,
+                          ),
+                        ),
 //
-                            Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Text(
-                                    widget._sentence.word[index].displayName ==
-                                            widget._sentence.word[index].name
-                                        ? '${widget._sentence.word[index].name}'
-                                        : '${widget._sentence.word[index].displayName} (${widget._sentence.word[index].name})',
-                                    style: GoogleFonts.didactGothic(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 18,
-                                    ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextField(
+                              keyboardType: TextInputType.text,
+                              controller: symbolTextEditingController,
+                              onChanged: (text) {
+                                setState(() {
+                                  widget._sentence
+                                      .replace(currentWordIndex, text);
+                                  widget._setTextEditingControllerText(
+                                      widget._sentence.toString());
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  labelText:
+                                      'Symbol for ${widget._sentence.word[currentWordIndex].displayName}',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12.0),
                                   ),
-                                ),
-                              ],
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.clear),
+                                    onPressed: () {
+                                      setState(() {
+                                        symbolTextEditingController.clear();
+                                      });
+                                    }, // _clearTextField,
+                                  ),
+                                  hintText: 'Symbol Name'),
                             ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                );
-              }),
+                  ],
+                ),
+              ),
             ),
-          ],
+            CarouselSlider.builder(
+              viewportFraction: 0.333,
+              enableInfiniteScroll: false,
+              aspectRatio: 16/4,
+              onPageChanged: (index) {
+                setState(() {
+                  currentWordIndex = index;
+                });
+              },
+              itemCount: widget._sentence.word.length,
+              itemBuilder: (BuildContext context, int itemIndex) =>
+                  GestureDetector(
+                onTap: () {
+                  setState(() {
+                    print('gesture detector');
+                    symbolTextEditingController.text =
+                        widget._sentence.word[itemIndex].name;
+                    displayNameTextEditingController.text =
+                        widget._sentence.word[itemIndex].displayName;
+                    currentWordIndex = itemIndex;
+                  });
+                },
+                child: Container(
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          AnimatedContainer(
+                            duration: Duration(seconds: 1),
+                            curve: Curves.fastOutSlowIn,
+                            height: currentWordIndex==itemIndex?50:30,
+
+                            child: Image.asset(
+                              'assets/images/symbols/' +
+                                  widget._sentence.word[itemIndex].imagePath,
+
+                              fit: BoxFit.contain,
+                              height: currentWordIndex==itemIndex?60:30,
+                              //colorBlendMode: BlendMode.srcOver ,
+                            ),
+                          ),
+//
+                          Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text(
+                                  widget._sentence.word[itemIndex]
+                                              .displayName ==
+                                          widget._sentence.word[itemIndex].name
+                                      ? '${widget._sentence.word[itemIndex].name}'
+                                      : '${widget._sentence.word[itemIndex].displayName} (${widget._sentence.word[itemIndex].name})',
+                                  style: GoogleFonts.didactGothic(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+           ],
         ),
       ),
     );
